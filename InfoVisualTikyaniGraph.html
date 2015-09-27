@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>D3: SVG bar chart with value labels (centered)</title>
+    <script type="text/javascript" src="d3.v3.js"></script>
+    <style type="text/css">
+        /* No style rules here yet */
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+
+    //Width and height
+    var width = 500;
+    var height = 120;
+    var barPadding = 1;
+
+    var dataset = [
+        [5, 23, 75],
+        [10, 14, 34],
+        [13, 67, 23],
+        [19, 10, 65],
+        [21, 42, 29],
+        [25, 25, 25],
+        [22, 90, 30],
+        [18, 57, 17],
+        [15, 25, 35],
+        [13, 26, 39],
+        [11, 17, 85],
+        [12, 36, 24],
+        [15, 60, 45],
+        [20, 41, 11],
+        [18, 77, 33],
+        [17, 85, 55],
+        [16, 23, 44],
+        [18, 35, 23],
+        [23, 55, 15],
+        [25, 45, 100]
+    ];
+
+    //Create SVG element
+    var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+    svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i) {
+                return i * (width / dataset.length);
+            })
+            .attr("y", function (d) {
+                return height - (d[0] * 4);
+            })
+            .attr("width", function (d) {
+                return (width / dataset.length) * (d[1] / 100) - barPadding;
+            })
+            .attr("height", function (d) {
+                return d[0] * 4;
+            })
+            .attr("fill", function (d) {
+                return "rgb(0, 0, 200)";
+            })
+            .attr("fill-opacity", function (d) {
+                return 0.25 + (0.75 * (d[2] / 100));
+            });
+
+        svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .text(function (d) {
+                    return d[0];
+                })
+                .attr("text-anchor", "left")
+                .attr("x", function (d, i) {
+                    return i * (width / dataset.length);
+                })
+                .attr("y", function (d) {
+                    return height - (d[0] * 4) - 2;
+                })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("fill", "red");
+
+
+</script>
+</body>
+</html>
